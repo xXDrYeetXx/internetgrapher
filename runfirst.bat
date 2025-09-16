@@ -10,7 +10,7 @@ py -m pip install --upgrade pip
 :: ================================
 :: Install required packages
 :: ================================
-py -m pip install speedtest-cli pandas openpyxl
+pip install speedtest-cli pandas openpyxl
 
 echo.
 echo Required Python packages installed successfully!
