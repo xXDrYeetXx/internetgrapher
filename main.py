@@ -5,6 +5,7 @@ import os
 from datetime import datetime
 import threading
 import sys
+import msvcrt  # Windows-only
 
 # ========================
 # CONFIGURATION (EDIT HERE)
@@ -46,19 +47,6 @@ def measure_speed(interval=MEASUREMENT_INTERVAL):
         time.sleep(interval)
 
 
-# --- User input function ---
-def wait_for_input():
-    global running
-    print("\nPress Enter to save Excel file. Type 'stop', 'quit', or 'end' to finish.\n")
-    while running:
-        user_input = input("> ").strip().lower()
-        if user_input in ["stop", "quit", "end"]:
-            running = False
-            break
-        else:  # Enter pressed
-            save_excel()
-
-
 # --- Save measurements to Excel ---
 def save_excel():
     if not measurements:
@@ -71,11 +59,26 @@ def save_excel():
     print(f"Measurements saved to {filepath}")
 
 
+# --- Keyboard input function using msvcrt ---
+def wait_for_input():
+    global running
+    print("\nPress Enter to save Excel file. Press 's' to stop and quit.\n")
+    while running:
+        if msvcrt.kbhit():
+            key = msvcrt.getwch()  # get a keypress
+            if key == '\r':  # Enter
+                save_excel()
+            elif key.lower() == 's':
+                running = False
+                break
+        time.sleep(0.1)  # small sleep to reduce CPU usage
+
+
 # --- Start measurement thread ---
 measurement_thread = threading.Thread(target=measure_speed, args=(MEASUREMENT_INTERVAL,), daemon=True)
 measurement_thread.start()
 
-# --- Main thread waits for user input ---
+# --- Main thread waits for keyboard input ---
 wait_for_input()
 
 # --- Save Excel before exiting ---
