@@ -5,15 +5,15 @@ SETLOCAL
 :: Upgrade pip
 :: ================================
 python -m ensurepip --default-pip
-pip install --upgrade pip
+python -m pip install --upgrade pip
 
 :: ================================
 :: Install required packages
 :: ================================
-pip install speedtest-cli pandas openpyxl
+python -m pip install speedtest-cli pandas openpyxl
 
 echo.
-echo Required Python packages installed successfully!
+echo Required Python packages installed !
 
 pause
 ENDLOCAL
