@@ -4,8 +4,8 @@ SETLOCAL
 :: ================================
 :: Upgrade pip
 :: ================================
-py -m ensurepip --default-pip
-py -m pip install --upgrade pip
+python -m ensurepip --default-pip
+pip install --upgrade pip
 
 :: ================================
 :: Install required packages
